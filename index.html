@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Emotion Detector</title>
+</head>
+<body>
+  <h1>Emotion Detector</h1>
+  <input type="text" id="text" size="60" placeholder="Type a sentence...">
+  <button id="submit">Analyze</button>
+  <div id="result"></div>
+
+  <script>
+    document.getElementById("submit").addEventListener("click", async () => {
+      const text = document.getElementById("text").value;
+      const result = document.getElementById("result");
+
+      const response = await fetch("/emotionDetector", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: text })
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        result.textContent = "Error: " + data.error;
+        return;
+      }
+
+      result.textContent =
+        "For the given statement, the system response is " +
+        "'anger': " + data.anger + ", " +
+        "'disgust': " + data.disgust + ", " +
+        "'fear': " + data.fear + ", " +
+        "'joy': " + data.joy + " and " +
+        "'sadness': " + data.sadness + ". " +
+        "The dominant emotion is " + data.dominant_emotion + ".";
+    });
+  </script>
+</body>
+</html>

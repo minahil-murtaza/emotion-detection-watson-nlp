@@ -1,0 +1,6 @@
+requests>=2.31
+Flask>=3.0
+pytest>=8.0
+
+# Development tools
+pylint>=3.0
